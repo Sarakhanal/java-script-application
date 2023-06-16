@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Number Guessing Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #333;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 30px;
+    }
+
+    .game-panel {
+      background-color: #222;
+      border-radius: 5px;
+      padding: 20px;
+      width: 300px;
+    }
+
+    p {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 3px;
+      border: none;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 8px 16px;
+      font-size: 16px;
+      border-radius: 3px;
+      border: none;
+      background-color: #4caf50;
+      color: #fff;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #4caf50;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Number Guessing Game</h1>
+    <div class="game-panel">
+      <p>Guess a number between 1 and 100:</p>
+      <input type="text" id="guessInput" />
+      <button onclick="checkGuess()">Submit</button>
+      <p class="result" id="result"></p>
+      <p class="result" id="guessCount"></p>
+    </div>
+  </div>
+
+  <script>
+    // Generate a random number between 1 and 100
+    var randomNumber = Math.floor(Math.random() * 100) + 1;
+
+    // Initialize variables
+    var guessCount = 0;
+    var resultText = document.getElementById("result");
+    var guessCountText = document.getElementById("guessCount");
+
+    // Function to check the user's guess
+    function checkGuess() {
+      var guessInput = document.getElementById("guessInput");
+      var userGuess = parseInt(guessInput.value);
+
+      // Validate the user's guess
+      if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+        resultText.textContent = "Please enter a valid number between 1 and 100.";
+        return;
+      }
+
+      guessCount++;
+
+      // Check if the guess is correct, too low, or too high
+      if (userGuess === randomNumber) {
+        resultText.textContent = "Congratulations! You guessed the correct number!";
+        guessInput.value = "";
+        guessInput.disabled = true;
+        guessInput.style.backgroundColor = "#888";
+        guessInput.style.cursor = "not-allowed";
+        guessCountText.textContent = "Number of Guesses: " + guessCount;
+      } else if (userGuess < randomNumber) {
+        resultText.textContent = "Too low! Guess a higher number.";
+      } else {
+        resultText.textContent = "Too high!

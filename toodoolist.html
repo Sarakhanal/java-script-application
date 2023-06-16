@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f2f2f2;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .todo-form {
+      display: flex;
+      margin-bottom: 10px;
+    }
+
+    .todo-form input[type="text"] {
+      flex: 1;
+      padding: 5px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+    }
+
+    .todo-form button {
+      padding: 5px 10px;
+      margin-left: 10px;
+      border: none;
+      border-radius: 3px;
+      background-color: #4caf50;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .todo-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      margin-bottom: 5px;
+      border-radius: 3px;
+      background-color: #fff;
+    }
+
+    .todo-item .task-name {
+      flex: 1;
+      margin-left: 10px;
+    }
+
+    .todo-item .delete-btn {
+      color: red;
+      cursor: pointer;
+    }
+
+    .todo-item.completed {
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>To-Do List</h1>
+    <form class="todo-form" onsubmit="addTask(event)">
+      <input type="text" id="taskInput" placeholder="Enter task" required />
+      <button type="submit">Add Task</button>
+    </form>
+    <ul class="todo-list" id="taskList"></ul>
+  </div>
+
+  <script>
+    // Task list array to store tasks
+    var taskList = [];
+
+    // Function to add a new task
+    function addTask(event) {
+      event.preventDefault();
+      var taskInput = document.getElementById("taskInput");
+      var task = taskInput.value.trim();
+
+      if (task !== "") {
+        taskList.push({
+          name: task,
+          completed: false
+        });
+        taskInput.value = "";
+        renderTaskList();
+      }
+    }
+
+    // Function to render the task list
+    function renderTaskList() {
+      var taskListElement = document.getElementById("taskList");
+      taskListElement.innerHTML = "";
+
+      taskList.forEach(function(task, index) {
+        var listItem = document.createElement("li");
+        listItem.className = "todo-item" + (task.completed ? " completed" : "");
+
+        var checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.completed;
+        checkbox.addEventListener("change", function() {
+          toggleTaskCompleted(index);
+        });
+
+        var taskName = document.createElement("span");
+        taskName.className = "task-name";
+        taskName.textContent = task.name;
+
+        var deleteButton = document.createElement("span");
+        deleteButton.className = "delete-btn";
+        deleteButton.textContent = "X";
+        deleteButton.addEventListener("click", function() {
+          deleteTask(index);
+        });
+
+        listItem.appendChild(checkbox);
+        listItem.appendChild(taskName);
+        listItem.appendChild(deleteButton);
+        taskListElement.appendChild(listItem);
+      });
+    }
+
+    // Function to toggle task completion status
+    function toggleTaskCompleted(index) {
+      taskList[index].completed = !taskList[index].completed;
+      renderTaskList();
+    }
+
+    // Function to delete a task
+    function deleteTask(index) {
+      taskList.splice(index, 1);
+      renderTaskList();
+    }
+  </script>
+</body>
+</html>

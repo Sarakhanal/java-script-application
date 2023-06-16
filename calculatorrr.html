@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Basic Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .calculator {
+      max-width: 300px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f2f2f2;
+    }
+
+    .calculator h1 {
+      text-align: center;
+    }
+
+    .calculator label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .calculator input[type="number"],
+    .calculator select {
+      width: 100%;
+      padding: 5px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+    }
+
+    .calculator button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 3px;
+      background-color: #4caf50;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .calculator button:hover {
+      background-color: #45a049;
+    }
+
+    .calculator .result {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .calculator .error {
+      color: red;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h1>Basic Calculator</h1>
+    <label for="num1">Number 1:</label>
+    <input type="number" id="num1" />
+
+    <label for="num2">Number 2:</label>
+    <input type="number" id="num2" />
+
+    <label for="operation">Operation:</label>
+    <select id="operation">
+      <option value="addition">Addition</option>
+      <option value="subtraction">Subtraction</option>
+      <option value="multiplication">Multiplication</option>
+      <option value="division">Division</option>
+    </select>
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="result">
+      Result: <span id="result"></span>
+    </div>
+
+    <div class="error" id="error-message"></div>
+  </div>
+
+  <script>
+    function calculate() {
+      var num1 = parseFloat(document.getElementById("num1").value);
+      var num2 = parseFloat(document.getElementById("num2").value);
+      var operation = document.getElementById("operation").value;
+      var result;
+
+      var errorMessage = document.getElementById("error-message");
+      errorMessage.textContent = "";
+
+      if (isNaN(num1) || isNaN(num2)) {
+        errorMessage.textContent = "Please enter valid numbers.";
+      } else {
+        switch (operation) {
+          case "addition":
+            result = num1 + num2;
+            break;
+          case "subtraction":
+            result = num1 - num2;
+            break;
+          case "multiplication":
+            result = num1 * num2;
+            break;
+          case "division":
+            if (num2 !== 0) {
+              result = num1 / num2;
+            } else {
+              errorMessage.textContent = "Cannot divide by zero.";
+            }
+            break;
+          default:
+            errorMessage.textContent = "Invalid operation.";
+            break;
+        }
+      }
+
+      if
